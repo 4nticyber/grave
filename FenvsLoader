@@ -1,0 +1,314 @@
+local TweenService = game:GetService("TweenService")
+local ScreenGui = Instance.new("ScreenGui")
+local Top = Instance.new("TextLabel")
+local Bottom = Instance.new("TextLabel")
+local Blur = Instance.new("BlurEffect")
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Blur.Name = "Blur"
+Blur.Parent = game:GetService("Lighting")
+Blur.Size = 24
+
+Top.Name = "Top"
+Top.Parent = ScreenGui
+Top.AnchorPoint = Vector2.new(0.5, 0.5)
+Top.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Top.BackgroundTransparency = 1.000
+Top.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Top.BorderSizePixel = 0
+Top.Position = UDim2.new(0.5, 0, 0.5, 0)
+Top.Size = UDim2.new(0.374236882, 0, 0.0910224468, 0)
+Top.Font = Enum.Font.GothamBold
+Top.Text = "FENVS Silent Aim"
+Top.TextColor3 = Color3.fromRGB(255, 255, 255)
+Top.TextScaled = true
+Top.TextSize = 14.000
+Top.TextWrapped = true
+
+Bottom.Name = "Bottom"
+Bottom.Parent = ScreenGui
+Bottom.AnchorPoint = Vector2.new(0.5, 0.5)
+Bottom.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Bottom.BackgroundTransparency = 1.000
+Bottom.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Bottom.BorderSizePixel = 0
+Bottom.Position = UDim2.new(0.5, 0, 0.54862833, 0)
+Bottom.Size = UDim2.new(0.374236882, 0, 0.0236907732, 0)
+Bottom.Font = Enum.Font.GothamBold
+Bottom.Text = "Loading"
+Bottom.TextColor3 = Color3.fromRGB(255, 255, 255)
+Bottom.TextScaled = true
+Bottom.TextSize = 14.000
+Bottom.TextWrapped = true
+
+
+local function fadeOutText(textLabel)
+	Top.Text = "Welcome, ".. game.Players.LocalPlayer.DisplayName
+	local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+	local targetTransparency = 1
+
+	local tween = TweenService:Create(textLabel, tweenInfo, {TextTransparency = targetTransparency})
+	task.wait(2)
+	tween:Play()
+	tween.Completed:Connect(function()
+		textLabel:Destroy() 
+	end)
+end
+
+local function FadeBlur()
+	local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+	
+	
+	local blur = TweenService:Create(Blur, tweenInfo, {Size = 0})
+	blur:Play()
+	blur.Completed:Connect(function()
+		Blur:Destroy()
+	end)
+end
+
+
+
+wait(2)
+fadeOutText(Bottom)
+task.wait(1)
+fadeOutText(Top)
+task.wait(0.5)
+FadeBlur()
+
+--
+
+local ScreenGui = Instance.new("ScreenGui")
+
+local TweenService = game:GetService("TweenService")
+local UIListLayout = Instance.new("UIListLayout")
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "Fenv notify"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+UIListLayout.Parent = ScreenGui
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+
+local function NotifyPlayer(Text, duration, colour)
+	print("test")
+	local Bottom = Instance.new("TextLabel")
+	Bottom.TextTransparency = 1
+	Bottom.Name = "Bottom"
+	Bottom.Parent = ScreenGui
+	Bottom.AnchorPoint = Vector2.new(0.5, 0.5)
+	Bottom.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Bottom.BackgroundTransparency = 1.000
+	Bottom.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Bottom.BorderSizePixel = 0
+	Bottom.Position = UDim2.new(0.5, 0, 0.135749534, 0)
+	Bottom.Size = UDim2.new(0.374236882, 0, 0.0433877409, 0)
+	Bottom.Font = Enum.Font.GothamBold
+	Bottom.Text = Text
+	if colour == "Red" then
+		Bottom.TextColor3 = Color3.fromRGB(255, 0, 4)
+	elseif colour == "White" then
+		Bottom.TextColor3 = Color3.fromRGB(238, 238, 238)
+	elseif colour == "Green" then
+		Bottom.TextColor3 = Color3.fromRGB(17, 255, 0)
+	end
+	
+	Bottom.TextScaled = true
+	Bottom.TextSize = 14.000
+	Bottom.TextWrapped = true
+
+	local function fadeInText()
+		local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+		local targetTransparency = 0
+
+		local tween = TweenService:Create(Bottom, tweenInfo, {TextTransparency = targetTransparency})
+		tween:Play()
+	end
+
+	local function fadeOutAndDestroyText()
+		local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+		local targetTransparency = 1
+
+		local tween = TweenService:Create(Bottom, tweenInfo, {TextTransparency = targetTransparency})
+		tween:Play()
+		tween.Completed:Connect(function()
+			Bottom:Destroy() 
+		end)
+	end
+
+	fadeInText()
+	wait(duration) 
+	fadeOutAndDestroyText()
+end
+
+NotifyPlayer("X to enable/disable silent aim", 5, "White")
+
+local getnamecallmethod = getnamecallmethod or getnamecall_method
+local newcclosure = newcclosure or hide_me or function(func) return func end
+local checkcaller = checkcaller or is_protosmasher_caller or Cer.isCerus
+
+local uis = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+local mt = getrawmetatable(game)
+
+local mt_index, mt_namecall = mt.__index, mt.__namecall
+
+if setreadonly then
+	setreadonly(mt, false)
+elseif make_writeable then
+	make_writeable(mt, true)
+end
+
+local aimbot = false
+local UserInputService = game:GetService("UserInputService")
+
+local function onKeyPress(input)
+	if input.KeyCode == Enum.KeyCode.X then
+		aimbot = not aimbot 
+		if aimbot then
+			NotifyPlayer("Silent Aim: ON", 2, "Green")
+			aimbot = true
+		else
+			NotifyPlayer("Silent Aim: OFF", 2, "Red")
+			aimbot = false
+		end
+	end
+end
+
+UserInputService.InputBegan:Connect(onKeyPress)
+
+
+
+mt.__index = (function(instance, index)
+	local value = mt_index(instance, index)
+
+	if aimbot then
+		if instance:IsA("Mouse") then
+			if index:lower() == "target" then
+				local closestCharacter, closestDistance = nil, math.huge
+				for _, currentPlayer in ipairs(game.Players:GetPlayers()) do
+					if currentPlayer ~= game.Players.LocalPlayer then
+						local character = currentPlayer.Character
+						if character then
+							local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+							if humanoid and humanoid.Health > 0 then
+								local distance = currentPlayer.DistanceFromCharacter(currentPlayer, value.Position)
+								if distance < closestDistance then
+									closestCharacter, closestDistance = character, distance
+								end
+							end
+						end
+					end
+				end
+
+				if closestCharacter.HumanoidRootPart then
+					value = closestCharacter.HumanoidRootPart
+				end
+			end
+
+			if index:lower() == "hit" then
+				local closestCharacter, closestDistance = nil, math.huge
+				for _, currentPlayer in ipairs(game.Players:GetPlayers()) do
+					if currentPlayer ~= game.Players.LocalPlayer then
+						local character = currentPlayer.Character
+						if character then
+							local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+							if humanoid and humanoid.Health > 0 then
+								local distance = currentPlayer.DistanceFromCharacter(currentPlayer, value.p)
+								if distance < closestDistance then
+									closestCharacter, closestDistance = character, distance
+								end
+							end
+						end
+					end
+				end
+
+				if closestCharacter then
+					value = closestCharacter.HumanoidRootPart.CFrame
+				end
+			end
+
+			if index:lower() == "x" then
+				value = uis:GetMouseLocation().X
+			end
+
+			if index:lower() == "y" then
+				value = uis:GetMouseLocation().Y
+			end
+
+			if index:lower() == "unitray" then
+				value = Ray.new(instance.Origin, (instance.Hit - instance.Origin).Unit)
+			end
+		end
+
+		if instance:IsA("Humanoid") then
+			if index:lower() == "targetpoint" then
+				local closestCharacter, closestDistance = nil, math.huge
+				for _, currentPlayer in ipairs(game.Players:GetPlayers()) do
+					if currentPlayer ~= game.Players.LocalPlayer then
+						local character = currentPlayer.Character
+						if character then
+							local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+							if humanoid and humanoid.Health > 0 then
+								local distance = currentPlayer.DistanceFromCharacter(currentPlayer, value)
+								if distance < closestDistance then
+									closestCharacter, closestDistance = character, distance
+								end
+							end
+						end
+					end
+				end
+
+				if closestCharacter.HumanoidRootPart.Position then
+					value = closestCharacter.HumanoidRootPart.Position
+				end
+			end
+		end
+	end
+
+	return value
+end)
+
+mt.__namecall = (function(instance, ...)
+	local args = {...}
+
+	local returns = table.pack(mt_namecall(instance, unpack(args)))
+
+	if aimbot then
+		if getnamecallmethod() == "GetMouseLocation" then
+			local closestCharacter, closestDistance = nil, math.huge
+			for _, currentPlayer in ipairs(game.Players:GetPlayers()) do
+				if currentPlayer ~= game.Players.LocalPlayer then
+					local character = currentPlayer.Character
+					if character then
+						local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+						if humanoid and humanoid.Health > 0 then
+							local vector, onScreen = workspace.CurrentCamera.WorldToViewportPoint(workspace.CurrentCamera, character.HumanoidRootPart.Position)
+							local distance = (Vector2.new(vector.X, vector.Y) - returns[1]).magnitude
+							if onScreen then
+								if distance < closestDistance then
+									closestCharacter, closestDistance = character, distance
+								end
+							end
+						end
+					end
+				end
+			end
+
+			if closestCharacter.HumanoidRootPart.Position then
+				local vec = workspace.CurrentCamera.WorldToViewportPoint(workspace.CurrentCamera, closestCharacter.HumanoidRootPart.Position)
+
+				returns[1] = Vector2.new(vec.X, vec.Y)
+			end
+		end
+	end
+
+	return unpack(returns)
+end)
+
+
